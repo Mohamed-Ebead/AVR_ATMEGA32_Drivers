@@ -1,0 +1,257 @@
+/*
+ * LCD_Prog.c
+ *
+ *  Created on: Aug 24, 2019
+ *      Author: Mohamed_Ebead
+ */
+
+
+#include "STD_Types.h"
+#include<util/delay.h>
+#include "DIO_int.h"
+
+#include "LCD_int.h"
+#include "LCD_Private.h"
+
+/****************************************************************/
+void LCD_vidWriteCommand (u8 u8CmdCpy) {
+	  // Set RS = 0
+	  DIO_SetPinValue(PORTD , PIN1, LOW);
+
+	  // Set R/W = 0
+	  DIO_SetPinValue(PORTD , PIN2, LOW);
+
+	  // Set EN = 0
+	  DIO_SetPinValue(PORTD , PIN3, HIGH);
+
+	  DIO_SetPortValue (PORTC,u8CmdCpy);
+
+	  // set EN to 1 after settting command
+	  // pulse
+	  DIO_SetPinValue(PORTD , PIN3, LOW);
+	  _delay_ms(10);
+	  DIO_SetPinValue(PORTD , PIN3, HIGH);
+
+  }
+
+
+/****************************************************************/
+
+
+void LCD_vidInitialize(void){
+
+
+	 // set VDD @ A0 to 5 volt
+	  DIO_SetPinValue(PORTD , PIN0, HIGH);
+
+	  _delay_ms(50);
+
+	  //Return Home
+	  	// LCD_vidWriteCommand (0b00000010);//0X02
+	  	// _delay_ms (10000);
+
+	//FUNCTION SET
+	  LCD_vidWriteCommand (0b00111000);//0X38  // N=0 1 line 0b00110000
+	  _delay_ms (10);
+
+
+	  // DISPLAY ON/OFF CONTROL
+	  LCD_vidWriteCommand (0b00001111);
+	//  LCD_vidWriteCommand (0b00001100); //0X0C
+	  _delay_ms (10);
+
+	  // DISPLAY CLEAR
+	 	  LCD_vidWriteCommand (0b00000001);
+	 	  _delay_ms (10);
+
+
+	  // Entry mode set
+	  LCD_vidWriteCommand (0b00000110);//0X06
+	  _delay_ms (20);
+
+}
+
+
+
+/****************************************************************/
+
+void LCD_vidWriteCharacter(u8 u8DataCpy){
+	 // Set RS to HIGH
+		DIO_SetPinValue(PORTD, 1 , HIGH);
+
+		// Set R/W to LOW
+		DIO_SetPinValue(PORTD, 2 , LOW);
+
+		// Set E to HIGH
+		DIO_SetPinValue(PORTD, 3 , HIGH);
+
+		// Load Command on Data bus
+		DIO_SetPortValue(PORTC, u8DataCpy);
+
+		// Set E to LOW
+		DIO_SetPinValue(PORTD, 3, LOW);
+
+		// Wait for E to settle
+		_delay_ms(10);
+
+		// Set E to HIGH
+		DIO_SetPinValue(PORTD, 2, HIGH);
+
+		// Delay to let the LCD Display the character
+		_delay_ms(10);
+
+}
+
+
+/****************************************************************/
+
+void LCD_vidWriteString (u8* pu8StringCpy, u8 u8Index){
+
+
+	//	/* Local loop index */
+	//	u8 u8Index = 0;
+		u8 iteration=0;
+	//	while (pu8StringCpy[u8Index] != '\0')
+		for (iteration=0; ((iteration<u8Index)&&(pu8StringCpy[iteration] != '\0')) ; iteration++)
+		{
+
+			/* Write Character on LCD */
+			LCD_vidWriteCharacter(pu8StringCpy[iteration]);
+
+	//		/* Increment local loop index */
+	//		u8Index++;
+
+			/* Delay to let the LCD show the character */
+			_delay_ms(10);
+		}
+
+
+}
+
+/****************************************************************/
+
+void Gotoxy (u8 X,u8 Y){
+	if (X>0 && X<=16)
+		{
+		    switch(Y)
+		    {
+			    case 1:
+			    	LCD_vidWriteCommand(X+127);
+			    break;
+			    case 2:
+			    	LCD_vidWriteCommand(X+191);
+			    break;
+			    default:
+			    break;
+		    }
+		}
+
+}
+
+/****************************************************************/
+
+void LCD_vidWriteExtraCharacter(u8 x , u8 y ){
+
+	u8 i ,j ;
+
+
+
+	/* set the CGRAM address to the address counter
+	 * data is then written / read  to / from CGRAM */
+
+	LCD_vidWriteCommand(0b01000000); // 0x40
+
+
+	// write data to 64 locations of  CGRAM
+
+	for(i=0 ; i<64 ; i++)
+			{
+				LCD_vidWriteCharacter(Sine_Wave[i]);
+
+			}
+
+	  Gotoxy (x,y) ;
+
+
+	/* set the DDRAM address to the address counter
+	 * data is then written / read  to / from DDRAM */
+
+	LCD_vidWriteCommand(0b10000000); // 0x80
+
+	for ( j = 0 ; j< No_Of_Chars ; j++ ) {
+
+		// Write bytes of DDRAM
+		LCD_vidWriteCharacter(j);
+
+		_delay_ms(10);
+
+	}
+
+
+
+}
+
+/****************************************************************/
+
+void LCD_vidWriteSineShape(u8 xx , u8 y ){
+
+	u8 i ,j ;
+
+
+
+		/* set the CGRAM address to the address counter
+		 * data is then written / read  to / from CGRAM */
+
+		LCD_vidWriteCommand(0b01000000); // 0x40
+
+
+		// write data to 64 locations of  CGRAM
+
+		for(i=0 ; i<64 ; i++)
+				{
+					LCD_vidWriteCharacter(Sine_Wave[i]);
+
+				}
+
+		/* set the DDRAM address to the address counter
+		 * data is then written / read  to / from DDRAM */
+
+		LCD_vidWriteCommand(0b10000000); // 0x80
+
+		for ( j = 0 ; j< No_Of_Chars ; j++ ) {
+
+			if(j>=(No_Of_Chars /2)){
+
+				 Gotoxy (x,2) ;
+
+			     // Write bytes of DDRAM
+			     LCD_vidWriteCharacter(j);
+
+			     _delay_ms(10);
+
+			     x++ ;
+
+			}
+
+			else {
+				 Gotoxy (x,1);
+			      // Write bytes of DDRAM
+			      LCD_vidWriteCharacter(j);
+
+			      _delay_ms(10);
+
+			      x++ ;
+			}
+
+
+
+		}
+
+
+
+
+
+}
+
+/****************************************************************/
+

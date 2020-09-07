@@ -1,0 +1,20 @@
+12:04:09 **** Incremental Build of configuration Debug for project Lec3_Ass2 ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega32 Lec3_Ass2.elf
+AVR Memory Usage
+----------------
+Device: atmega32
+
+Program:    8958 bytes (27.3% Full)
+(.text + .data + .bootloader)
+
+Data:          8 bytes (0.4% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+
+12:04:09 Build Finished (took 188ms)
+

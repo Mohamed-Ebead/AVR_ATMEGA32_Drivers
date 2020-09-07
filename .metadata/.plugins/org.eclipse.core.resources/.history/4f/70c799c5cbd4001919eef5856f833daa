@@ -1,0 +1,70 @@
+/*
+ * main.c
+ *
+ *  Created on: Sep 7, 2019
+ *      Author: Mohamed_Ebead
+ */
+
+#include "STD_Types.h"
+#include <util/delay.h>
+#include "DIO_int.h"
+
+#include "ADC_int.h"
+#include "ADC_Private.h"
+
+void main (void) {
+
+	u16 local_u16_Read ;
+
+	DIO_SetPortDirection (PORTA, 0x00);
+	DIO_SetPortValue     (PORTA, 0XFF);
+
+	DIO_SetPortDirection (PORTC, 0xFF); // red >> yellow >> green
+
+	ADC_Init ();
+
+	while (1){
+
+
+		local_u16_Read	= ADC_Read (PIN0) ;
+
+	if ( (local_u16_Read > 0) && (local_u16_Read < 300) ){
+
+		// Turn Red LED on
+
+		DIO_SetPinValue(PORTC , PIN0, HIGH );
+		DIO_SetPinValue(PORTC , PIN1, LOW );
+		DIO_SetPinValue(PORTC , PIN2, LOW );
+
+	}
+
+	else if ( (local_u16_Read > 300) && (local_u16_Read < 700) ) {
+
+		// Turn Yellow LED on
+
+			DIO_SetPinValue(PORTC , PIN0, LOW );
+			DIO_SetPinValue(PORTC , PIN1, HIGH );
+			DIO_SetPinValue(PORTC , PIN2, LOW );
+
+	}
+
+	else if ( (local_u16_Read > 700) && (local_u16_Read < 1000) ) {
+
+		 // Turn Geen LED on
+
+			DIO_SetPinValue(PORTC , PIN0, LOW );
+			DIO_SetPinValue(PORTC , PIN1, LOW );
+			DIO_SetPinValue(PORTC , PIN2, HIGH );
+			_delay_ms(1000);
+	}
+
+		else {
+
+				DIO_SetPinValue(PORTC , PIN0, HIGH );
+				DIO_SetPinValue(PORTC , PIN1, HIGH );
+				DIO_SetPinValue(PORTC , PIN2, HIGH );
+
+	}
+
+}
+}

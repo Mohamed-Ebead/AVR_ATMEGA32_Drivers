@@ -1,0 +1,252 @@
+
+Timers.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000018e  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .bss          00000002  00800060  00800060  00000202  2**0
+                  ALLOC
+  2 .stab         00000480  00000000  00000000  00000204  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  3 .stabstr      000007b2  00000000  00000000  00000684  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 3e 00 	jmp	0x7c	; 0x7c <__vector_10>
+  2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_clear_bss>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
+
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	a2 36       	cpi	r26, 0x62	; 98
+  6c:	b1 07       	cpc	r27, r17
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 79 00 	call	0xf2	; 0xf2 <main>
+  74:	0c 94 c5 00 	jmp	0x18a	; 0x18a <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <__vector_10>:
+	}*/
+
+// CTC MODE
+
+ISR(TIMER0_COMP_vect)
+{
+  7c:	1f 92       	push	r1
+  7e:	0f 92       	push	r0
+  80:	0f b6       	in	r0, 0x3f	; 63
+  82:	0f 92       	push	r0
+  84:	11 24       	eor	r1, r1
+  86:	2f 93       	push	r18
+  88:	8f 93       	push	r24
+  8a:	9f 93       	push	r25
+  8c:	af 93       	push	r26
+  8e:	bf 93       	push	r27
+  90:	ef 93       	push	r30
+  92:	ff 93       	push	r31
+  94:	df 93       	push	r29
+  96:	cf 93       	push	r28
+  98:	cd b7       	in	r28, 0x3d	; 61
+  9a:	de b7       	in	r29, 0x3e	; 62
+	static  u16 counter = 0 ;
+		counter ++ ;
+  9c:	80 91 60 00 	lds	r24, 0x0060
+  a0:	90 91 61 00 	lds	r25, 0x0061
+  a4:	01 96       	adiw	r24, 0x01	; 1
+  a6:	90 93 61 00 	sts	0x0061, r25
+  aa:	80 93 60 00 	sts	0x0060, r24
+
+	if (counter == 5000) {
+  ae:	80 91 60 00 	lds	r24, 0x0060
+  b2:	90 91 61 00 	lds	r25, 0x0061
+  b6:	23 e1       	ldi	r18, 0x13	; 19
+  b8:	88 38       	cpi	r24, 0x88	; 136
+  ba:	92 07       	cpc	r25, r18
+  bc:	61 f4       	brne	.+24     	; 0xd6 <__vector_10+0x5a>
+		counter=0 ;
+  be:	10 92 61 00 	sts	0x0061, r1
+  c2:	10 92 60 00 	sts	0x0060, r1
+
+		TOG_BIT(PORTA,PIN0);
+  c6:	ab e3       	ldi	r26, 0x3B	; 59
+  c8:	b0 e0       	ldi	r27, 0x00	; 0
+  ca:	eb e3       	ldi	r30, 0x3B	; 59
+  cc:	f0 e0       	ldi	r31, 0x00	; 0
+  ce:	90 81       	ld	r25, Z
+  d0:	81 e0       	ldi	r24, 0x01	; 1
+  d2:	89 27       	eor	r24, r25
+  d4:	8c 93       	st	X, r24
+
+	}
+
+
+}
+  d6:	cf 91       	pop	r28
+  d8:	df 91       	pop	r29
+  da:	ff 91       	pop	r31
+  dc:	ef 91       	pop	r30
+  de:	bf 91       	pop	r27
+  e0:	af 91       	pop	r26
+  e2:	9f 91       	pop	r25
+  e4:	8f 91       	pop	r24
+  e6:	2f 91       	pop	r18
+  e8:	0f 90       	pop	r0
+  ea:	0f be       	out	0x3f, r0	; 63
+  ec:	0f 90       	pop	r0
+  ee:	1f 90       	pop	r1
+  f0:	18 95       	reti
+
+000000f2 <main>:
+
+
+
+	void main (void){
+  f2:	df 93       	push	r29
+  f4:	cf 93       	push	r28
+  f6:	cd b7       	in	r28, 0x3d	; 61
+  f8:	de b7       	in	r29, 0x3e	; 62
+
+
+		DDRA=0XFF;
+  fa:	ea e3       	ldi	r30, 0x3A	; 58
+  fc:	f0 e0       	ldi	r31, 0x00	; 0
+  fe:	8f ef       	ldi	r24, 0xFF	; 255
+ 100:	80 83       	st	Z, r24
+
+		// CTC MODE
+
+		CLR_BIT(TCCR0,WGM00) ;
+ 102:	a3 e5       	ldi	r26, 0x53	; 83
+ 104:	b0 e0       	ldi	r27, 0x00	; 0
+ 106:	e3 e5       	ldi	r30, 0x53	; 83
+ 108:	f0 e0       	ldi	r31, 0x00	; 0
+ 10a:	80 81       	ld	r24, Z
+ 10c:	8f 7b       	andi	r24, 0xBF	; 191
+ 10e:	8c 93       	st	X, r24
+		SET_BIT (TCCR0,WGM01);
+ 110:	a3 e5       	ldi	r26, 0x53	; 83
+ 112:	b0 e0       	ldi	r27, 0x00	; 0
+ 114:	e3 e5       	ldi	r30, 0x53	; 83
+ 116:	f0 e0       	ldi	r31, 0x00	; 0
+ 118:	80 81       	ld	r24, Z
+ 11a:	88 60       	ori	r24, 0x08	; 8
+ 11c:	8c 93       	st	X, r24
+
+
+		//Normal port operation , OC0 disconnected
+
+		CLR_BIT(TCCR0,COM00) ;
+ 11e:	a3 e5       	ldi	r26, 0x53	; 83
+ 120:	b0 e0       	ldi	r27, 0x00	; 0
+ 122:	e3 e5       	ldi	r30, 0x53	; 83
+ 124:	f0 e0       	ldi	r31, 0x00	; 0
+ 126:	80 81       	ld	r24, Z
+ 128:	8f 7e       	andi	r24, 0xEF	; 239
+ 12a:	8c 93       	st	X, r24
+		CLR_BIT(TCCR0,COM01) ;
+ 12c:	a3 e5       	ldi	r26, 0x53	; 83
+ 12e:	b0 e0       	ldi	r27, 0x00	; 0
+ 130:	e3 e5       	ldi	r30, 0x53	; 83
+ 132:	f0 e0       	ldi	r31, 0x00	; 0
+ 134:	80 81       	ld	r24, Z
+ 136:	8f 7d       	andi	r24, 0xDF	; 223
+ 138:	8c 93       	st	X, r24
+
+		OCR0 = 200 ;
+ 13a:	ec e5       	ldi	r30, 0x5C	; 92
+ 13c:	f0 e0       	ldi	r31, 0x00	; 0
+ 13e:	88 ec       	ldi	r24, 0xC8	; 200
+ 140:	80 83       	st	Z, r24
+
+		// clk I/O/8 (From prescaler)
+		CLR_BIT(TCCR0,CS00);
+ 142:	a3 e5       	ldi	r26, 0x53	; 83
+ 144:	b0 e0       	ldi	r27, 0x00	; 0
+ 146:	e3 e5       	ldi	r30, 0x53	; 83
+ 148:	f0 e0       	ldi	r31, 0x00	; 0
+ 14a:	80 81       	ld	r24, Z
+ 14c:	8e 7f       	andi	r24, 0xFE	; 254
+ 14e:	8c 93       	st	X, r24
+		SET_BIT(TCCR0,CS01);
+ 150:	a3 e5       	ldi	r26, 0x53	; 83
+ 152:	b0 e0       	ldi	r27, 0x00	; 0
+ 154:	e3 e5       	ldi	r30, 0x53	; 83
+ 156:	f0 e0       	ldi	r31, 0x00	; 0
+ 158:	80 81       	ld	r24, Z
+ 15a:	82 60       	ori	r24, 0x02	; 2
+ 15c:	8c 93       	st	X, r24
+		CLR_BIT(TCCR0,CS02);
+ 15e:	a3 e5       	ldi	r26, 0x53	; 83
+ 160:	b0 e0       	ldi	r27, 0x00	; 0
+ 162:	e3 e5       	ldi	r30, 0x53	; 83
+ 164:	f0 e0       	ldi	r31, 0x00	; 0
+ 166:	80 81       	ld	r24, Z
+ 168:	8b 7f       	andi	r24, 0xFB	; 251
+ 16a:	8c 93       	st	X, r24
+
+
+		// ENABLE INTERRUPT
+		SET_BIT(TIMSK,OCIE0);
+ 16c:	a9 e5       	ldi	r26, 0x59	; 89
+ 16e:	b0 e0       	ldi	r27, 0x00	; 0
+ 170:	e9 e5       	ldi	r30, 0x59	; 89
+ 172:	f0 e0       	ldi	r31, 0x00	; 0
+ 174:	80 81       	ld	r24, Z
+ 176:	82 60       	ori	r24, 0x02	; 2
+ 178:	8c 93       	st	X, r24
+
+		// ENABLE GLOBAL INTERRUPT
+		SET_BIT(SREG,7);
+ 17a:	af e5       	ldi	r26, 0x5F	; 95
+ 17c:	b0 e0       	ldi	r27, 0x00	; 0
+ 17e:	ef e5       	ldi	r30, 0x5F	; 95
+ 180:	f0 e0       	ldi	r31, 0x00	; 0
+ 182:	80 81       	ld	r24, Z
+ 184:	80 68       	ori	r24, 0x80	; 128
+ 186:	8c 93       	st	X, r24
+ 188:	ff cf       	rjmp	.-2      	; 0x188 <main+0x96>
+
+0000018a <_exit>:
+ 18a:	f8 94       	cli
+
+0000018c <__stop_program>:
+ 18c:	ff cf       	rjmp	.-2      	; 0x18c <__stop_program>

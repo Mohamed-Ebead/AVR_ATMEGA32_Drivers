@@ -1,0 +1,17 @@
+17:08:15 **** Incremental Build of configuration Debug for project HAMOKSHA2 ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega32 HAMOKSHA2.elf
+AVR Memory Usage
+----------------
+Device: atmega32
+
+Program:    8636 bytes (26.4% Full)
+(.text + .data + .bootloader)
+
+Data:        113 bytes (5.5% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 

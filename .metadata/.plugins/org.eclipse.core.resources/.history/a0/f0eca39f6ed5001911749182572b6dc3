@@ -1,0 +1,68 @@
+/*
+ * main.c
+ *
+ *  Created on: Aug 23, 2019
+ *      Author: Mohamed_Ebead
+ */
+
+
+#include "STD_Types.h"
+#include"BIT_MATH.h"
+#include<util/delay.h>
+
+#include "DIO_int.h"
+#include "DIO_reg.h"
+
+#include "LCD_int.h"
+
+
+
+
+void main(void){
+
+	 u8 ch = 'M';
+    u8 s[8]= "Mohamed" ;
+
+
+	 	/****************  LCD Configuration  *****************/
+
+	 		     _delay_ms(50);
+
+	 			// SET VDD TO D0   5 Volt (D0 >> VDD)
+	 			  DIO_SetPinDirection (PORTD, PIN0, HIGH);
+
+	 			  //  RS >> D1
+	 			  DIO_SetPinDirection (PORTD, PIN1, HIGH);
+
+	 			  //  R/W >> D2
+	 			  DIO_SetPinDirection (PORTD, PIN2, HIGH);
+
+	 			  //  Enable >> D3
+	 			   DIO_SetPinDirection (PORTD, PIN3, HIGH);
+
+
+	 			  //SET PORTC AS OUTPUT (PORTC >> DB0...DB7)
+	 			  DIO_SetPortDirection (PORTC, 0XFF);
+
+
+			LCD_vidInitialize();
+
+
+			u8 Arrayy[] = LCD_u8Combine2Arrays(Sine_Wave[], Hamoksha[] ) ;
+
+			while (1){
+
+
+
+				LCD_vidWriteSineShape() ;
+
+
+			}
+
+
+
+
+
+
+
+}

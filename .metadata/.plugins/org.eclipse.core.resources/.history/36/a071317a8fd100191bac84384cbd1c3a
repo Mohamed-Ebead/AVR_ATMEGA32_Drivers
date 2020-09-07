@@ -1,0 +1,25 @@
+/*
+ * ADC_int.h
+ *
+ *  Created on: Sep 7, 2019
+ *      Author: Mohamed_Ebead
+ */
+
+#ifndef ADC_INT_H_
+#define ADC_INT_H_
+
+#define ADMUX_Reg
+#define ADCSRA_Reg
+#define ADCH_Reg
+#define ADCL_Reg
+
+
+void ADC_Init (void); // ADC Initialization And Enable
+u16 ADC_Read (u8); // Read From The ADC Channel
+
+
+
+
+
+
+#endif /* ADC_INT_H_ */

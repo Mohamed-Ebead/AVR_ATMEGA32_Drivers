@@ -1,0 +1,265 @@
+
+I2C_Master.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000186  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .stab         00000450  00000000  00000000  000001dc  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  2 .stabstr      00000384  00000000  00000000  0000062c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 ab 00 	call	0x156	; 0x156 <main>
+  64:	0c 94 c1 00 	jmp	0x182	; 0x182 <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <TWI_InitMaster>:
+#include "STD_Types.h"
+#include "I2C_private.h"
+
+/********************************************************/
+
+void TWI_InitMaster (void) {
+  6c:	df 93       	push	r29
+  6e:	cf 93       	push	r28
+  70:	cd b7       	in	r28, 0x3d	; 61
+  72:	de b7       	in	r29, 0x3e	; 62
+	TWCR_REG = 0x72 ;
+  74:	e6 e5       	ldi	r30, 0x56	; 86
+  76:	f0 e0       	ldi	r31, 0x00	; 0
+  78:	82 e7       	ldi	r24, 0x72	; 114
+  7a:	80 83       	st	Z, r24
+	TWSR_REG = (0<<TWPS1) | (0<<TWPS0) ;
+  7c:	e1 e2       	ldi	r30, 0x21	; 33
+  7e:	f0 e0       	ldi	r31, 0x00	; 0
+  80:	10 82       	st	Z, r1
+}
+  82:	cf 91       	pop	r28
+  84:	df 91       	pop	r29
+  86:	08 95       	ret
+
+00000088 <TWI_Start>:
+
+/********************************************************/
+
+void TWI_Start (void) {
+  88:	df 93       	push	r29
+  8a:	cf 93       	push	r28
+  8c:	cd b7       	in	r28, 0x3d	; 61
+  8e:	de b7       	in	r29, 0x3e	; 62
+	TWCR_REG = (1<<TWINT) | (1<<TWSTA) ;
+  90:	e6 e5       	ldi	r30, 0x56	; 86
+  92:	f0 e0       	ldi	r31, 0x00	; 0
+  94:	80 ea       	ldi	r24, 0xA0	; 160
+  96:	80 83       	st	Z, r24
+	while (!(TWCR_REG & (1<<TWINT))) ;
+  98:	e6 e5       	ldi	r30, 0x56	; 86
+  9a:	f0 e0       	ldi	r31, 0x00	; 0
+  9c:	80 81       	ld	r24, Z
+  9e:	88 23       	and	r24, r24
+  a0:	dc f7       	brge	.-10     	; 0x98 <TWI_Start+0x10>
+	while ( ( TWSR_REG & 0xF8 ) != 0x08 ) ;
+  a2:	e1 e2       	ldi	r30, 0x21	; 33
+  a4:	f0 e0       	ldi	r31, 0x00	; 0
+  a6:	80 81       	ld	r24, Z
+  a8:	88 2f       	mov	r24, r24
+  aa:	90 e0       	ldi	r25, 0x00	; 0
+  ac:	88 7f       	andi	r24, 0xF8	; 248
+  ae:	90 70       	andi	r25, 0x00	; 0
+  b0:	88 30       	cpi	r24, 0x08	; 8
+  b2:	91 05       	cpc	r25, r1
+  b4:	b1 f7       	brne	.-20     	; 0xa2 <TWI_Start+0x1a>
+}
+  b6:	cf 91       	pop	r28
+  b8:	df 91       	pop	r29
+  ba:	08 95       	ret
+
+000000bc <TWI_WriteAddress>:
+
+/********************************************************/
+
+void TWI_WriteAddress (u8 u8_Address) {
+  bc:	df 93       	push	r29
+  be:	cf 93       	push	r28
+  c0:	0f 92       	push	r0
+  c2:	cd b7       	in	r28, 0x3d	; 61
+  c4:	de b7       	in	r29, 0x3e	; 62
+  c6:	89 83       	std	Y+1, r24	; 0x01
+	TWDR_REG = u8_Address ;
+  c8:	e3 e2       	ldi	r30, 0x23	; 35
+  ca:	f0 e0       	ldi	r31, 0x00	; 0
+  cc:	89 81       	ldd	r24, Y+1	; 0x01
+  ce:	80 83       	st	Z, r24
+	TWCR_REG = (1<<TWINT) | (1<<TWEN) ;
+  d0:	e6 e5       	ldi	r30, 0x56	; 86
+  d2:	f0 e0       	ldi	r31, 0x00	; 0
+  d4:	84 e8       	ldi	r24, 0x84	; 132
+  d6:	80 83       	st	Z, r24
+	while (!(TWCR_REG & (1<<TWINT))) ;
+  d8:	e6 e5       	ldi	r30, 0x56	; 86
+  da:	f0 e0       	ldi	r31, 0x00	; 0
+  dc:	80 81       	ld	r24, Z
+  de:	88 23       	and	r24, r24
+  e0:	dc f7       	brge	.-10     	; 0xd8 <TWI_WriteAddress+0x1c>
+	while ( ( TWSR_REG & 0xF8 ) != 0x18 ) ;
+  e2:	e1 e2       	ldi	r30, 0x21	; 33
+  e4:	f0 e0       	ldi	r31, 0x00	; 0
+  e6:	80 81       	ld	r24, Z
+  e8:	88 2f       	mov	r24, r24
+  ea:	90 e0       	ldi	r25, 0x00	; 0
+  ec:	88 7f       	andi	r24, 0xF8	; 248
+  ee:	90 70       	andi	r25, 0x00	; 0
+  f0:	88 31       	cpi	r24, 0x18	; 24
+  f2:	91 05       	cpc	r25, r1
+  f4:	b1 f7       	brne	.-20     	; 0xe2 <TWI_WriteAddress+0x26>
+}
+  f6:	0f 90       	pop	r0
+  f8:	cf 91       	pop	r28
+  fa:	df 91       	pop	r29
+  fc:	08 95       	ret
+
+000000fe <TWI_WriteData>:
+
+/********************************************************/
+
+void TWI_WriteData (u8 u8_Data) {
+  fe:	df 93       	push	r29
+ 100:	cf 93       	push	r28
+ 102:	0f 92       	push	r0
+ 104:	cd b7       	in	r28, 0x3d	; 61
+ 106:	de b7       	in	r29, 0x3e	; 62
+ 108:	89 83       	std	Y+1, r24	; 0x01
+	TWDR_REG = u8_Data ;
+ 10a:	e3 e2       	ldi	r30, 0x23	; 35
+ 10c:	f0 e0       	ldi	r31, 0x00	; 0
+ 10e:	89 81       	ldd	r24, Y+1	; 0x01
+ 110:	80 83       	st	Z, r24
+	TWCR_REG = (1<<TWINT) | (1<<TWEN) ;
+ 112:	e6 e5       	ldi	r30, 0x56	; 86
+ 114:	f0 e0       	ldi	r31, 0x00	; 0
+ 116:	84 e8       	ldi	r24, 0x84	; 132
+ 118:	80 83       	st	Z, r24
+	while (!(TWCR_REG & (1<<TWINT))) ;
+ 11a:	e6 e5       	ldi	r30, 0x56	; 86
+ 11c:	f0 e0       	ldi	r31, 0x00	; 0
+ 11e:	80 81       	ld	r24, Z
+ 120:	88 23       	and	r24, r24
+ 122:	dc f7       	brge	.-10     	; 0x11a <TWI_WriteData+0x1c>
+	while ( ( TWSR_REG & 0xF8 ) != 0x28 ) ;
+ 124:	e1 e2       	ldi	r30, 0x21	; 33
+ 126:	f0 e0       	ldi	r31, 0x00	; 0
+ 128:	80 81       	ld	r24, Z
+ 12a:	88 2f       	mov	r24, r24
+ 12c:	90 e0       	ldi	r25, 0x00	; 0
+ 12e:	88 7f       	andi	r24, 0xF8	; 248
+ 130:	90 70       	andi	r25, 0x00	; 0
+ 132:	88 32       	cpi	r24, 0x28	; 40
+ 134:	91 05       	cpc	r25, r1
+ 136:	b1 f7       	brne	.-20     	; 0x124 <TWI_WriteData+0x26>
+}
+ 138:	0f 90       	pop	r0
+ 13a:	cf 91       	pop	r28
+ 13c:	df 91       	pop	r29
+ 13e:	08 95       	ret
+
+00000140 <TWI_Stop>:
+
+/********************************************************/
+
+void TWI_Stop (void) {
+ 140:	df 93       	push	r29
+ 142:	cf 93       	push	r28
+ 144:	cd b7       	in	r28, 0x3d	; 61
+ 146:	de b7       	in	r29, 0x3e	; 62
+	TWCR_REG = (1<<TWINT) | (1<<TWEN) | (1<<TWSTO) ;
+ 148:	e6 e5       	ldi	r30, 0x56	; 86
+ 14a:	f0 e0       	ldi	r31, 0x00	; 0
+ 14c:	84 e9       	ldi	r24, 0x94	; 148
+ 14e:	80 83       	st	Z, r24
+}
+ 150:	cf 91       	pop	r28
+ 152:	df 91       	pop	r29
+ 154:	08 95       	ret
+
+00000156 <main>:
+
+
+
+
+
+void main(void){
+ 156:	df 93       	push	r29
+ 158:	cf 93       	push	r28
+ 15a:	00 d0       	rcall	.+0      	; 0x15c <main+0x6>
+ 15c:	cd b7       	in	r28, 0x3d	; 61
+ 15e:	de b7       	in	r29, 0x3e	; 62
+
+	u8 Address = 0x20 ;
+ 160:	80 e2       	ldi	r24, 0x20	; 32
+ 162:	8a 83       	std	Y+2, r24	; 0x02
+	u8 Data = 0x52 ;
+ 164:	82 e5       	ldi	r24, 0x52	; 82
+ 166:	89 83       	std	Y+1, r24	; 0x01
+
+	TWI_InitMaster () ;
+ 168:	0e 94 36 00 	call	0x6c	; 0x6c <TWI_InitMaster>
+
+
+
+	while(1){
+
+		TWI_Start () ;
+ 16c:	0e 94 44 00 	call	0x88	; 0x88 <TWI_Start>
+
+			TWI_WriteAddress (Address ) ;
+ 170:	8a 81       	ldd	r24, Y+2	; 0x02
+ 172:	0e 94 5e 00 	call	0xbc	; 0xbc <TWI_WriteAddress>
+
+			TWI_WriteData (Data) ;
+ 176:	89 81       	ldd	r24, Y+1	; 0x01
+ 178:	0e 94 7f 00 	call	0xfe	; 0xfe <TWI_WriteData>
+
+			TWI_Stop () ;
+ 17c:	0e 94 a0 00 	call	0x140	; 0x140 <TWI_Stop>
+ 180:	f5 cf       	rjmp	.-22     	; 0x16c <main+0x16>
+
+00000182 <_exit>:
+ 182:	f8 94       	cli
+
+00000184 <__stop_program>:
+ 184:	ff cf       	rjmp	.-2      	; 0x184 <__stop_program>

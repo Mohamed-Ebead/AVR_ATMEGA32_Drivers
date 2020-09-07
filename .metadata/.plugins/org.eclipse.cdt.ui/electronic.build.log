@@ -1,0 +1,17 @@
+16:19:48 **** Incremental Build of configuration Release for project electronic ****
+make all 
+Building file: ../main.c
+Invoking: AVR Compiler
+avr-gcc -Wall -Os -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=8000000UL -MMD -MP -MF"main.d" -MT"main.o" -c -o "main.o" "../main.c"
+../main.c:18: warning: return type of 'main' is not 'int'
+Finished building: ../main.c
+ 
+Building target: electronic.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,electronic.map -mmcu=atmega32 -o "electronic.elf"  ./DIO_prog.o ./main.o   
+./main.o: In function `main':
+main.c:(.text.main+0x8): undefined reference to `vid_Stepper'
+make: *** [electronic.elf] Error 1
+
+16:19:48 Build Finished (took 469ms)
+

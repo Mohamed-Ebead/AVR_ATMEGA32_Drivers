@@ -1,0 +1,19 @@
+/*
+ * ADC_private.h
+ *
+ *  Created on: Sep 7, 2019
+ *      Author: Mohamed_Ebead
+ */
+
+#ifndef ADC_PRIVATE_H_
+#define ADC_PRIVATE_H_
+
+
+#define ADMUX_Reg
+#define ADCSRA_Reg
+#define ADCH_Reg
+#define ADCL_Reg
+
+
+
+#endif /* ADC_PRIVATE_H_ */

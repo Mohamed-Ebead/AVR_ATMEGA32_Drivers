@@ -1,0 +1,23 @@
+19:41:08 **** Incremental Build of configuration Debug for project Lec13 ****
+make all 
+Building file: ../DIO_prog.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=12000000UL -MMD -MP -MF"DIO_prog.d" -MT"DIO_prog.o" -c -o "DIO_prog.o" "../DIO_prog.c"
+Finished building: ../DIO_prog.c
+ 
+Building file: ../Lec13_Ass2.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=12000000UL -MMD -MP -MF"Lec13_Ass2.d" -MT"Lec13_Ass2.o" -c -o "Lec13_Ass2.o" "../Lec13_Ass2.c"
+In file included from ../Lec13_Ass2.c:10:
+e:/imt/imt_sdk_win_64/winavr/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+../Lec13_Ass2.c:18: warning: return type of 'main' is not 'int'
+../Lec13_Ass2.c: In function 'main':
+../Lec13_Ass2.c:59: error: 'pin2' undeclared (first use in this function)
+../Lec13_Ass2.c:59: error: (Each undeclared identifier is reported only once
+../Lec13_Ass2.c:59: error: for each function it appears in.)
+../Lec13_Ass2.c:70: error: expected statement before ')' token
+../Lec13_Ass2.c:82: error: 'else' without a previous 'if'
+make: *** [Lec13_Ass2.o] Error 1
+
+19:41:08 Build Finished (took 376ms)
+

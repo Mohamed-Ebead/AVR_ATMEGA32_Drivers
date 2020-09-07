@@ -1,0 +1,20 @@
+16:02:00 **** Incremental Build of configuration Debug for project Lcd0 ****
+make all 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega32 Lcd0.elf
+AVR Memory Usage
+----------------
+Device: atmega32
+
+Program:    8428 bytes (25.7% Full)
+(.text + .data + .bootloader)
+
+Data:         72 bytes (3.5% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+
+16:02:00 Build Finished (took 328ms)
+

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;DIO_Driver/private.h&apos; to &apos;LCD_int.h&apos;" description="Rename resource &apos;private.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="private.h" name="LCD_int.h" stamp="1566659740473" updateReferences="true"/>
+</session>

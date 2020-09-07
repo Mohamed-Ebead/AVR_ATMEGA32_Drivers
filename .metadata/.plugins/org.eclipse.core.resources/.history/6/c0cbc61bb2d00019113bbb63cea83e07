@@ -1,0 +1,71 @@
+/*
+ * main.c
+ *
+ *  Created on: Aug 23, 2019
+ *      Author: Mohamed_Ebead
+ */
+
+#include "STD_Types.h"
+#include"BIT_MATH.h"
+
+#include "DIO_int.h"
+
+#include"STP_int.h"
+
+
+
+
+void main(void){
+
+
+
+	 DIO_SetPortDirection (PORTB,0xff);
+
+
+while(1) {
+
+
+
+	//vid_Stepper();
+
+
+
+	 DIO_SetPinValue(PORTB, PIN0, HIGH);
+	 DIO_SetPinValue(PORTB, PIN1, LOW);
+	 DIO_SetPinValue(PORTB, PIN2, LOW);
+	 DIO_SetPinValue(PORTB, PIN3, LOW);
+
+
+
+	 DIO_SetPinValue(PORTB, PIN0, LOW);
+ DIO_SetPinValue(PORTB, PIN1, HIGH);
+ DIO_SetPinValue(PORTB, PIN2,LOW);
+ DIO_SetPinValue(PORTB, PIN3,LOW );
+
+		_delay_ms(20);
+
+	  DIO_SetPinValue(PORTB, PIN0, LOW);
+	  DIO_SetPinValue(PORTB, PIN1, LOW);
+	  DIO_SetPinValue(PORTB, PIN2,HIGH);
+	  DIO_SetPinValue(PORTB, PIN3,LOW );
+
+			_delay_ms(20);
+
+	 DIO_SetPinValue(PORTB, PIN0, LOW);
+ DIO_SetPinValue(PORTB, PIN1, LOW);
+ DIO_SetPinValue(PORTB, PIN2, LOW);
+ DIO_SetPinValue(PORTB, PIN3, HIGH);
+
+				_delay_ms(20);
+
+
+
+
+
+
+}
+
+
+
+
+}

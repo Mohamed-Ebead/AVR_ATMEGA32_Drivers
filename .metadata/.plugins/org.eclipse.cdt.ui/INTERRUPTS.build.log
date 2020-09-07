@@ -1,0 +1,47 @@
+16:01:57 **** Incremental Build of configuration Debug for project INTERRUPTS ****
+make all 
+Building file: ../main.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=8000000UL -MMD -MP -MF"main.d" -MT"main.o" -c -o "main.o" "../main.c"
+In file included from ../main.c:13:
+e:/imt/imt_sdk_win_64/winavr/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+In file included from ../main.c:16:
+../DIO_int.h:6:1: warning: "PORTA" redefined
+In file included from e:/imt/imt_sdk_win_64/winavr/lib/gcc/../../avr/include/avr/io.h:206,
+                 from e:/imt/imt_sdk_win_64/winavr/lib/gcc/../../avr/include/avr/interrupt.h:38,
+                 from ../main.c:8:
+e:/imt/imt_sdk_win_64/winavr/lib/gcc/../../avr/include/avr/iom32.h:100:1: warning: this is the location of the previous definition
+In file included from ../main.c:16:
+../DIO_int.h:7:1: warning: "PORTB" redefined
+In file included from e:/imt/imt_sdk_win_64/winavr/lib/gcc/../../avr/include/avr/io.h:206,
+                 from e:/imt/imt_sdk_win_64/winavr/lib/gcc/../../avr/include/avr/interrupt.h:38,
+                 from ../main.c:8:
+e:/imt/imt_sdk_win_64/winavr/lib/gcc/../../avr/include/avr/iom32.h:95:1: warning: this is the location of the previous definition
+In file included from ../main.c:16:
+../DIO_int.h:8:1: warning: "PORTC" redefined
+In file included from e:/imt/imt_sdk_win_64/winavr/lib/gcc/../../avr/include/avr/io.h:206,
+                 from e:/imt/imt_sdk_win_64/winavr/lib/gcc/../../avr/include/avr/interrupt.h:38,
+                 from ../main.c:8:
+e:/imt/imt_sdk_win_64/winavr/lib/gcc/../../avr/include/avr/iom32.h:90:1: warning: this is the location of the previous definition
+In file included from ../main.c:16:
+../DIO_int.h:9:1: warning: "PORTD" redefined
+In file included from e:/imt/imt_sdk_win_64/winavr/lib/gcc/../../avr/include/avr/io.h:206,
+                 from e:/imt/imt_sdk_win_64/winavr/lib/gcc/../../avr/include/avr/interrupt.h:38,
+                 from ../main.c:8:
+e:/imt/imt_sdk_win_64/winavr/lib/gcc/../../avr/include/avr/iom32.h:85:1: warning: this is the location of the previous definition
+../main.c: In function '__vector_1':
+../main.c:28: error: lvalue required as left operand of assignment
+../main.c:34: error: lvalue required as left operand of assignment
+../main.c: At top level:
+../main.c:42: warning: return type of 'main' is not 'int'
+../main.c: In function 'main':
+../main.c:48: error: lvalue required as left operand of assignment
+../main.c:49: error: lvalue required as left operand of assignment
+../main.c:53: warning: implicit declaration of function 'CLR__BIT'
+../main.c:54: error: lvalue required as left operand of assignment
+../main.c:72: error: lvalue required as left operand of assignment
+../main.c:74: error: lvalue required as left operand of assignment
+make: *** [main.o] Error 1
+
+16:01:57 Build Finished (took 312ms)
+

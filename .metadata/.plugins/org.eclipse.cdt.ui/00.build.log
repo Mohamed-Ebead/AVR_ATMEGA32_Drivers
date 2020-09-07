@@ -1,0 +1,41 @@
+22:53:46 **** Incremental Build of configuration Debug for project 00 ****
+make all 
+Building file: ../Lec13_Ass2.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=12000000UL -MMD -MP -MF"Lec13_Ass2.d" -MT"Lec13_Ass2.o" -c -o "Lec13_Ass2.o" "../Lec13_Ass2.c"
+In file included from ../Lec13_Ass2.c:10:
+e:/imt/imt_sdk_win_64/winavr/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+../Lec13_Ass2.c:18: warning: return type of 'main' is not 'int'
+Finished building: ../Lec13_Ass2.c
+ 
+Building target: 00.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,00.map -mmcu=atmega32 -o "00.elf"  ./DIO_prog.o ./Lec13_Ass2.o   
+Finished building target: 00.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S 00.elf  >"00.lss"
+Finished building: 00.lss
+ 
+Create Flash image (ihex format)
+avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex 00.elf  "00.hex"
+Finished building: 00.hex
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega32 00.elf
+AVR Memory Usage
+----------------
+Device: atmega32
+
+Program:    8940 bytes (27.3% Full)
+(.text + .data + .bootloader)
+
+Data:          8 bytes (0.4% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+
+22:53:46 Build Finished (took 713ms)
+

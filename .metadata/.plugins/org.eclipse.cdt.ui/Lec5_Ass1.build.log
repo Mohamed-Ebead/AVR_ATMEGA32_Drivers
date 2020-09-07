@@ -1,0 +1,45 @@
+18:52:05 **** Incremental Build of configuration Debug for project Lec5_Ass1 ****
+make all 
+Building file: ../main.c
+Invoking: AVR Compiler
+avr-gcc -Wall -g2 -gstabs -O0 -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=8000000UL -MMD -MP -MF"main.d" -MT"main.o" -c -o "main.o" "../main.c"
+In file included from ../main.c:11:
+e:/imt/imt_sdk_win_64/winavr/lib/gcc/../../avr/include/util/delay.h:90:3: warning: #warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+../main.c:20: warning: return type of 'main' is not 'int'
+../main.c: In function 'main':
+../main.c:70: warning: passing argument 1 of 'LCD_vidWriteString' from incompatible pointer type
+../main.c:79: warning: passing argument 1 of 'LCD_vidWriteString' from incompatible pointer type
+../main.c:89: warning: passing argument 1 of 'LCD_vidWriteString' from incompatible pointer type
+Finished building: ../main.c
+ 
+Building target: Lec5_Ass1.elf
+Invoking: AVR C Linker
+avr-gcc -Wl,-Map,Lec5_Ass1.map -mmcu=atmega32 -o "Lec5_Ass1.elf"  ./DIO_prog.o ./KEYPAD_Prog.o ./LCD_Prog.o ./main.o   
+Finished building target: Lec5_Ass1.elf
+ 
+Invoking: AVR Create Extended Listing
+avr-objdump -h -S Lec5_Ass1.elf  >"Lec5_Ass1.lss"
+Finished building: Lec5_Ass1.lss
+ 
+Create Flash image (ihex format)
+avr-objcopy -R .eeprom -R .fuse -R .lock -R .signature -O ihex Lec5_Ass1.elf  "Lec5_Ass1.hex"
+Finished building: Lec5_Ass1.hex
+ 
+Invoking: Print Size
+avr-size --format=avr --mcu=atmega32 Lec5_Ass1.elf
+AVR Memory Usage
+----------------
+Device: atmega32
+
+Program:    9282 bytes (28.3% Full)
+(.text + .data + .bootloader)
+
+Data:         68 bytes (3.3% Full)
+(.data + .bss + .noinit)
+
+
+Finished building: sizedummy
+ 
+
+18:52:06 Build Finished (took 923ms)
+
